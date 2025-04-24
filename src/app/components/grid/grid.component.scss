@@ -1,0 +1,179 @@
+@import "./../../../variables.scss";
+
+$font-sizes: (
+    2: 2rem,
+    4: 2rem,
+    8: 2rem,
+    16: 2rem,
+    32: 2rem,
+    64: 2rem,
+    128: 2rem,
+    256: 2rem,
+    512: 2rem,
+    1024: 1.5rem,
+    2048: 1.5rem,
+    4096: 1.5rem,
+    8192: 1.5rem,
+    16384: 1.25rem,
+    32768: 1.25rem,
+    65536: 1.25rem,
+);
+
+:host {
+    margin: auto;
+    width: calc($grid-display-size + 1rem);
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.grid-bg {
+    padding: $gap;
+    background-color: $grid-bg-color;
+    border-radius: $border-radius;
+}
+
+.grid-container {
+    width: $grid-display-size;
+    height: $grid-display-size;
+    position: relative;
+    display: flex;
+    gap: $gap;
+
+    .column {
+        display: flex;
+        flex-direction: column;
+        gap: $gap;
+        width: $tile-size;
+    }
+}
+
+.tile {
+    width: $tile-size;
+    height: $tile-size;
+    border-radius: $border-radius;
+    background-color: $tile-bg-color;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    transition: transition_standard(all, 250ms);
+    color: #0f172a;
+    position: absolute;
+
+    &.is-new {
+        animation: spawn $transition-duration-entering $deceleration-curve-timing-function;
+    }
+
+    @for $x from 0 through $grid-size-index {
+        @for $y from 0 through $grid-size-index {
+            &.position-#{$x}-#{$y} {
+                top: #{($tile-size * $y) + ($gap * $y)};
+                left: #{($tile-size * $x) + ($gap * $x)};
+            }
+        }
+    }
+
+    @each $value, $color in $colors {
+        &.value-#{$value} {
+            background-color: $color;
+        }
+    }
+
+    @each $value, $size in $font-sizes {
+        &.value-#{$value} {
+            font-size: $size;
+        }
+    }
+}
+
+.mock-tile {
+    position: static;
+}
+
+.score {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+.buttons {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
+
+    .vertical-buttons {
+        gap: 1rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+.button {
+    border-radius: 99rem;
+    background-color: #cbd5e1;
+    border: none;
+    padding: 0.5rem;
+
+    &-direction {
+        width: 4rem;
+        height: 4rem;
+
+        .icon {
+            width: 2rem;
+            height: 2rem;
+        }
+    }
+}
+
+.game-over {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border-radius: $border-radius;
+    animation: spawn $transition-duration-entering $deceleration-curve-timing-function;
+
+    .text {
+        margin: 0;
+        color: white;
+        font-size: 3rem;
+        text-shadow: 0 0 0.5rem black;
+    }
+}
+
+@keyframes spawn {
+    0% {
+        opacity: 0.25;
+        transform: scale(1, 1);
+    }
+
+    25% {
+        transform: scale(0.9, 1.1);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1.1, 0.9);
+    }
+
+    75% {
+        transform: scale(0.95, 1.05);
+    }
+
+    100% {
+        transform: scale(1, 1);
+    }
+}

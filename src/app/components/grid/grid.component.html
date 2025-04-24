@@ -1,0 +1,49 @@
+<button class="button" (click)="newGame()">New Game</button>
+
+<div class="score">
+    <p>Score: {{score | number : '1.0-0'}}</p>
+    <p>Best Score: {{best | number : '1.0-0'}}</p>
+</div>
+
+<div class="grid-bg">
+    <div class="grid-container">
+        @for (column of gridBg; track $index) {
+        <div class="column">
+            @for (tile of column; track $index) {
+            <div class="tile mock-tile"></div>
+            }
+        </div>
+        }
+
+        @for (tile of flatGrid; track tile.id) {
+        <div [ngClass]="{'is-new': tile.isNew}" class="tile position-{{tile.x}}-{{tile.y}} value-{{tile.value}}">
+            {{ tile.value }}
+        </div>
+        }
+
+        @if (gameOver) {
+        <div class="game-over">
+            <p class="text">Game Over</p>
+        </div>
+        }
+    </div>
+</div>
+
+<div class="buttons">
+    <button (click)="move('left')" class="button button-direction">
+        <img src="/assets/arrow-fat-left-fill.svg" class="icon" alt="Left" />
+    </button>
+    <div class="vertical-buttons">
+        <button (click)="move('up')" class="button button-direction">
+            <img src="/assets/arrow-fat-up-fill.svg" class="icon" alt="Up" />
+        </button>
+        <button (click)="move('down')" class="button button-direction">
+            <img src="/assets/arrow-fat-down-fill.svg" class="icon" alt="Down" />
+        </button>
+    </div>
+    <button (click)="move('right')" class="button button-direction">
+        <img src="/assets/arrow-fat-right-fill.svg" class="icon" alt="Right" />
+    </button>
+</div>
+
+<p><small>Use keys up, down, left and right to move tiles, or A, W, S, D.</small></p>

@@ -1,0 +1,43 @@
+$grid-size: 4;
+$tile-size: 3rem;
+$gap: 0.5rem;
+
+$grid-size-index: $grid-size - 1;
+
+$grid-display-size: #{($grid-size * $tile-size) + (($grid-size - 1) * $gap)};
+
+$border-radius: 0.25rem;
+$tile-bg-color: #e2e8f0;
+$grid-bg-color: #64748b;
+
+$deceleration-curve-timing-function: cubic-bezier(0, 0, 0.2, 1) !default;
+$standard-curve-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !default;
+$acceleration-curve-timing-function: cubic-bezier(0.4, 0, 1, 1) !default;
+$sharp-curve-timing-function: cubic-bezier(0.4, 0, 0.6, 1) !default;
+
+$transition-duration-complex: 375ms;
+$transition-duration-entering: 225ms;
+$transition-duration-exiting: 195ms;
+
+$colors: (
+    2: #fdba74,
+    4: #fcd34d,
+    8: #fde047,
+    16: #bef264,
+    32: #86efac,
+    64: #6ee7b7,
+    128: #5eead4,
+    256: #67e8f9,
+    512: #7dd3fc,
+    1024: #93c5fd,
+    2048: #a5b4fc,
+    4096: #c4b5fd,
+    8192: #d8b4fe,
+    16384: #f0abfc,
+    32768: #f9a8d4,
+    65536: #fda4af,
+);
+
+@function transition_standard($name, $duration: $transition-duration-complex, $delay: 0ms) {
+    @return $name $duration $delay $standard-curve-timing-function;
+}
