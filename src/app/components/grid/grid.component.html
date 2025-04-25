@@ -17,11 +17,12 @@
         </div>
         }
 
-        @for (tile of flatGrid; track tile.id) {
-        <div [ngClass]="{'is-new': tile.isNew}" class="tile position-{{tile.x}}-{{tile.y}} value-{{tile.value}}">
-            {{ tile.value }}
-        </div>
-        }
+        <ng-container *ngFor="let tile of flatGrid; trackBy: trackById">
+            <div [ngClass]="{'is-new': tile.isNew}" class="tile position-{{tile.x}}-{{tile.y}} value-{{tile.value}}">
+              <img [src]="'assets/albums/' + tile.value + '.jpg'" [alt]="'Album ' + tile.value" />
+            </div>
+          </ng-container>
+          
 
         @if (gameOver) {
         <div class="game-over">

@@ -16,6 +16,11 @@ import { Coords2D, Grid, MoveDirection, Tile } from '../../types';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GridComponent implements OnInit, OnDestroy {
+  imageList = [2,4,8,16,32,64,128,256,512,1024,2048,4096];
+  trackById(index: number, tile: any): any {
+    return tile.id;
+  }
+  
   /** current game score */
   score: number = 0;
 
