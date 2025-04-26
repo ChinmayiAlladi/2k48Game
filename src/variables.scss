@@ -1,6 +1,12 @@
 $grid-size: 4;
 $tile-size: 3rem;
 $gap: 0.5rem;
+@font-face {
+    font-family: 'taylors-font';
+    src: url('assets/fonts/taylors-font.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
 
 $grid-size-index: $grid-size - 1;
 

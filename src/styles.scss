@@ -6,6 +6,8 @@ body {
     font-weight: 400;
     font-style: normal;
     margin: 0;
+    height: 100vh;
+    overflow: hidden;
     overscroll-behavior: none;
 
     background-image: url('assets/bg.png'); /* use your actual file name */

@@ -1,52 +1,72 @@
-<h1>2048 X 1989</h1>
-<p>Taylor's Version</p>
-<button class="button" (click)="newGame()">New Game</button>
-
-<div class="score">
-    <p>Score: {{score | number : '1.0-0'}}</p>
-    <p>Best Score: {{best | number : '1.0-0'}}</p>
-</div>
-
-<div class="grid-bg">
-    <div class="grid-container">
-        @for (column of gridBg; track $index) {
-        <div class="column">
-            @for (tile of column; track $index) {
-            <div class="tile mock-tile"></div>
-            }
+<div class="game-container">
+    <!-- Header at the top center -->
+    <div class="header">
+      <h1>2048 x 1989
+        <p class="taylors-font">TAYLOR'S VERSION</p>
+      </h1>
+    </div>
+    
+    <div class="main-area">
+      <!-- Game controls to the left of the grid -->
+      <div class="game-controls">
+        <button class="button" (click)="newGame()">New Game</button>
+        <div class="score">
+          <p>Score: {{score | number : '1.0-0'}}</p>
+          <p>Best Score: {{best | number : '1.0-0'}}</p>
         </div>
-        }
-
-        <ng-container *ngFor="let tile of flatGrid; trackBy: trackById">
-            <div [ngClass]="{'is-new': tile.isNew}" class="tile position-{{tile.x}}-{{tile.y}} value-{{tile.value}}">
-              <img [src]="'assets/albums/' + tile.value + '.jpg'" [alt]="'Album ' + tile.value" />
+      </div>
+  
+      <!-- Game grid and arrows centered below header -->
+      <div class="game-section">
+        <!-- Main game grid -->
+        <div class="grid-bg">
+          <div class="grid-container">
+            @for (column of gridBg; track $index) {
+            <div class="column">
+              @for (tile of column; track $index) {
+              <div class="tile mock-tile"></div>
+              }
             </div>
-          </ng-container>
-          
-
-        @if (gameOver) {
-        <div class="game-over">
-            <p class="text">Game Over</p>
+            }
+  
+            <ng-container *ngFor="let tile of flatGrid; trackBy: trackById">
+              <div [ngClass]="{'is-new': tile.isNew}" class="tile position-{{tile.x}}-{{tile.y}} value-{{tile.value}}">
+                <img [src]="'assets/albums/' + tile.value + '.jpg'" [alt]="'Album ' + tile.value" />
+              </div>
+            </ng-container>
+  
+            @if (gameOver) {
+            <div class="game-over">
+              <p class="text">Game Over</p>
+            </div>
+            }
+          </div>
         </div>
-        }
+        
+        <!-- Arrow buttons directly below the grid -->
+        <div class="grid-buttons">
+          <div class="buttons">
+            <button (click)="move('left')" class="button button-direction">
+              <img src="/assets/arrow-fat-left-fill.svg" class="icon" alt="Left" />
+            </button>
+            <div class="vertical-buttons">
+              <button (click)="move('up')" class="button button-direction">
+                <img src="/assets/arrow-fat-up-fill.svg" class="icon" alt="Up" />
+              </button>
+              <button (click)="move('down')" class="button button-direction">
+                <img src="/assets/arrow-fat-down-fill.svg" class="icon" alt="Down" />
+              </button>
+            </div>
+            <button (click)="move('right')" class="button button-direction">
+              <img src="/assets/arrow-fat-right-fill.svg" class="icon" alt="Right" />
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
-</div>
-
-<div class="buttons">
-    <button (click)="move('left')" class="button button-direction">
-        <img src="/assets/arrow-fat-left-fill.svg" class="icon" alt="Left" />
-    </button>
-    <div class="vertical-buttons">
-        <button (click)="move('up')" class="button button-direction">
-            <img src="/assets/arrow-fat-up-fill.svg" class="icon" alt="Up" />
-        </button>
-        <button (click)="move('down')" class="button button-direction">
-            <img src="/assets/arrow-fat-down-fill.svg" class="icon" alt="Down" />
-        </button>
+    
+    <!-- Instructions at the bottom -->
+    <div class="footer">
+      <p><small>Use keys up, down, left and right to move tiles, or A, W, S, D.</small></p>
     </div>
-    <button (click)="move('right')" class="button button-direction">
-        <img src="/assets/arrow-fat-right-fill.svg" class="icon" alt="Right" />
-    </button>
-</div>
-
-<p><small>Use keys up, down, left and right to move tiles, or A, W, S, D.</small></p>
+  </div>
