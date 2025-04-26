@@ -31,7 +31,7 @@ $font-sizes: (
 
 .grid-bg {
     padding: $gap;
-    background-color: $grid-bg-color;
+    background-color: transparent;
     border-radius: $border-radius;
 }
 
@@ -54,7 +54,8 @@ $font-sizes: (
     width: $tile-size;
     height: $tile-size;
     border-radius: $border-radius;
-    background-color: $tile-bg-color;
+    background-color: transparent;
+    border: 1px solid white;
     display: flex;
     align-items: center;
     justify-content: center;
