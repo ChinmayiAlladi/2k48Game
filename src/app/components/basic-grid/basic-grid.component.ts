@@ -7,21 +7,16 @@ import { ScoreService } from '../../services/score/score.service';
 import { UtilService } from '../../services/util/util.service';
 import { Coords2D, Grid, MoveDirection, Tile } from '../../types';
 
-/** contains the grid for a game and controls */
+/** contains the grid for a game and controls in basic version */
 @Component({
-  selector: 'app-grid',
+  selector: 'app-basic-grid',
   standalone: true,
   imports: [CommonModule, RouterModule],
-  templateUrl: './grid.component.html',
-  styleUrl: './grid.component.scss',
+  templateUrl: './basic-grid.component.html',
+  styleUrl: './basic-grid.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GridComponent implements OnInit, OnDestroy {
-  imageList = [2,4,8,16,32,64,128,256,512,1024,2048,4096];
-  trackById(index: number, tile: any): any {
-    return tile.id;
-  }
-  
+export class BasicGridComponent implements OnInit, OnDestroy {
   /** current game score */
   score: number = 0;
 
@@ -65,9 +60,20 @@ export class GridComponent implements OnInit, OnDestroy {
     this.gridBg = this.gridService.newGrid(DEFAULT_GRID_SIZE);
     this.grid = UtilService.deepClone(this.gridBg);
     this.flatGrid = [];
-    this.best = this.scoreService.getBestScore(true); // Taylor's version
+    this.best = this.scoreService.getBestScore(false); // Basic version
     this.gameOver = false;
     this.score = 0;
+  }
+
+  /** For tracking tiles in ngFor */
+  trackById(index: number, tile: any): any {
+    return tile.id;
+  }
+
+  /** Version switch handler */
+  switchVersion(event: Event): void {
+    event.preventDefault();
+    this.router.navigateByUrl('/');
   }
 
   /** generate event listeners */
@@ -83,12 +89,6 @@ export class GridComponent implements OnInit, OnDestroy {
   /** clean up */
   ngOnDestroy(): void {
     this.detachEvents && this.detachEvents();
-  }
-
-  /** Version switch handler */
-  switchVersion(event: Event): void {
-    event.preventDefault();
-    this.router.navigateByUrl('/basic');
   }
 
   /** Start the game */
@@ -114,7 +114,7 @@ export class GridComponent implements OnInit, OnDestroy {
       this.flatGrid = [];
     }
     
-    this.best = this.scoreService.getBestScore(true); // Taylor's version
+    this.best = this.scoreService.getBestScore(false); // Basic version
     this.gameOver = false;
     this.score = 0;
     this.changeDetectorRef.detectChanges();
@@ -130,7 +130,7 @@ export class GridComponent implements OnInit, OnDestroy {
     if (result.changed) {
       this.grid = result.grid;
       this.flatGrid = this.gridService.overrideFlatGrid(this.flatGrid, result.movements);
-      this.scoreService.saveBestScore(result.score + this.score, true); // Taylor's version
+      this.scoreService.saveBestScore(result.score + this.score, false); // Basic version
       this.changeDetectorRef.detectChanges();
       setTimeout(() => {
         this.flatGrid = this.gridService.flatGrid(this.grid);
@@ -169,14 +169,6 @@ export class GridComponent implements OnInit, OnDestroy {
         this.move('right');
         break;
     }
-  }
-
-  /** set flat grid after some time to sync animations */
-  setFlatGridWithDelay(flatGrid: Tile[], time: number): void {
-    setTimeout(() => {
-      this.flatGrid = flatGrid;
-      this.changeDetectorRef.detectChanges();
-    }, time);
   }
 
   /** check if the game is over */

@@ -76,7 +76,17 @@
   </div>
   
   <!-- Instructions at the bottom -->
-  <div class="footer">
-    <p><small>Use keys up, down, left and right to move tiles, or A, W, S, D </small></p>
+<!-- Replace the current footer div with this -->
+<div class="footer">
+  <div class="footer-container">
+    <div class="footer-left">
+      <p class="version-switch"><small>Not a Swiftie? <a (click)="switchVersion($event)" class="version-link">Switch to the basic version instead</a></small></p>
+    </div>
+    <div class="footer-center">
+      <p><small>Use keys up, down, left and right to move tiles, or A, W, S, D </small></p>
+    </div>
+    <div class="footer-right">
+      <p><small>About Developer</small></p>
+    </div>
   </div>
 </div>

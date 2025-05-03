@@ -19,24 +19,6 @@ $font-sizes: (
     65536: 1.25rem,
 );
 
-/* Font imports - add these to your global styles or index.html */
-/* 
-@font-face {
-    font-family: 'Playfair Display';
-    src: url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap');
-}
-
-@font-face {
-    font-family: 'Montserrat';
-    src: url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap');
-}
-
-@font-face {
-    font-family: 'Dancing Script';
-    src: url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap');
-}
-*/
-
 :host {
     display: block;
     width: 100%;
@@ -173,7 +155,7 @@ $font-sizes: (
 
 .button {
     border-radius: 99rem;
-    background-color: #cbd5e1;
+    background-color: white;
     border: none;
     padding: 0.5rem;
     cursor: pointer;
@@ -199,10 +181,30 @@ $font-sizes: (
     }
 }
 
-/* Footer styling */
+/* Updated footer styles in your SCSS file */
 .footer {
     margin-top: 2rem;
-    text-align: center;
+    width: 100%;
+    
+    .footer-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        padding: 0 1rem;
+    }
+    
+    .footer-left {
+        text-align: left;
+    }
+    
+    .footer-center {
+        text-align: center;
+    }
+    
+    .footer-right {
+        text-align: right;
+    }
     
     p {
         margin: 0;
@@ -211,6 +213,34 @@ $font-sizes: (
         font-weight: 300;
         letter-spacing: 0.5px;
         color: #000000;
+    }
+    
+    .version-switch {
+        cursor: pointer;
+    }
+    
+    .version-link {
+        color: #0066cc;
+        font-weight: 500;
+        text-decoration: underline;
+        transition: all 0.2s ease;
+        
+        &:hover {
+            color: #004080;
+        }
+    }
+    
+    /* Responsive adjustments for small screens */
+    @media (max-width: 768px) {
+        .footer-container {
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .footer-left, .footer-center, .footer-right {
+            text-align: center;
+            width: 100%;
+        }
     }
 }
 

@@ -1,0 +1,91 @@
+<div class="game-container">
+    <!-- Header at the top center -->
+    <div class="header">
+      <h1>2048
+        <p class="subtitle">Basic Version</p>
+      </h1>
+    </div>
+    
+    <div class="main-area">
+      <!-- Game controls to the left of the grid -->
+      <div class="game-controls">
+        <button class="button" (click)="newGame()">New Game</button>
+        <div class="score">
+          <p>Score: {{score | number : '1.0-0'}}</p>
+          <p>Best Score: {{best | number : '1.0-0'}}</p>
+        </div>
+      </div>
+  
+      <!-- Game grid and arrows centered below header -->
+      <div class="game-section">
+        <!-- Main game grid -->
+        <div class="grid-bg">
+          <div class="grid-container">
+            @for (column of gridBg; track $index) {
+            <div class="column">
+              @for (tile of column; track $index) {
+              <div class="tile mock-tile"></div>
+              }
+            </div>
+            }
+  
+            <!-- Start game overlay shown when game hasn't started -->
+            @if (!gameStarted) {
+            <div class="start-game-overlay">
+              <button class="start-button" (click)="startGame()">Start Game</button>
+            </div>
+            }
+  
+            <!-- Tiles are only rendered after game has started -->
+            @if (gameStarted) {
+              <ng-container *ngFor="let tile of flatGrid; trackBy: trackById">
+                <div [ngClass]="{'is-new': tile.isNew}" class="tile position-{{tile.x}}-{{tile.y}} value-{{tile.value}}">
+                  {{tile.value}}
+                </div>
+              </ng-container>
+            }
+  
+            @if (gameOver) {
+            <div class="game-over">
+              <p class="text">Game Over</p>
+            </div>
+            }
+          </div>
+        </div>
+        
+        <!-- Arrow buttons directly below the grid -->
+        <div class="grid-buttons">
+          <div class="buttons">
+            <button [disabled]="!gameStarted" (click)="move('left')" class="button button-direction">
+              <img src="/assets/arrow-fat-left-fill.svg" class="icon" alt="Left" />
+            </button>
+            <div class="vertical-buttons">
+              <button [disabled]="!gameStarted" (click)="move('up')" class="button button-direction">
+                <img src="/assets/arrow-fat-up-fill.svg" class="icon" alt="Up" />
+              </button>
+              <button [disabled]="!gameStarted" (click)="move('down')" class="button button-direction">
+                <img src="/assets/arrow-fat-down-fill.svg" class="icon" alt="Down" />
+              </button>
+            </div>
+            <button [disabled]="!gameStarted" (click)="move('right')" class="button button-direction">
+              <img src="/assets/arrow-fat-right-fill.svg" class="icon" alt="Right" />
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Instructions at the bottom -->
+    <div class="footer">
+        <div class="footer-container">
+          <div class="footer-left">
+            <p class="version-switch"><small><a (click)="switchVersion($event)" class="version-link">Go to Taylor's Version</a></small></p>
+          </div>
+          <div class="footer-center">
+            <p><small>Use keys up, down, left and right to move tiles, or A, W, S, D </small></p>
+          </div>
+          <div class="footer-right">
+            <p><small>About Developer</small></p>
+          </div>
+        </div>
+      </div>
