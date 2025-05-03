@@ -60,7 +60,7 @@ export class GridComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     // let touchStart: Coords2D | null = null;
     // let lastTouch: Coords2D | null = null;
-
+    
     const action = (event: KeyboardEvent) => this.action(event);
     // const touchstart = (event: TouchEvent) => touchStart = this.getTouchPosition(event);
     // const touchmove = (event: TouchEvent) => lastTouch = this.getTouchPosition(event);
