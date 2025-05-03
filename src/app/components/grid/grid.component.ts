@@ -39,6 +39,9 @@ export class GridComponent implements OnInit, OnDestroy {
   /** check if is game over */
   gameOver: boolean = false;
 
+  /** check if game has started */
+  gameStarted: boolean = false;
+
   /** detach window.document event */
   detachEvents: (() => void) | null = null;
 
@@ -51,8 +54,18 @@ export class GridComponent implements OnInit, OnDestroy {
     @Inject(PLATFORM_ID) platformId: string,
   ) {
     if (isPlatformBrowser(platformId)) {
-      this.newGame();
+      this.initializeEmptyGrid();
     }
+  }
+
+  /** Initialize empty grid without tiles */
+  initializeEmptyGrid(): void {
+    this.gridBg = this.gridService.newGrid(DEFAULT_GRID_SIZE);
+    this.grid = UtilService.deepClone(this.gridBg);
+    this.flatGrid = [];
+    this.best = this.scoreService.getBestScore();
+    this.gameOver = false;
+    this.score = 0;
   }
 
   // TODO: fix swipe control
@@ -84,37 +97,62 @@ export class GridComponent implements OnInit, OnDestroy {
     this.detachEvents && this.detachEvents();
   }
 
+  /** Start the game */
+  startGame(): void {
+    this.gameStarted = true;
+    // Add initial tiles and start the game
+    this.grid = this.gridService.addNewTile(this.gridService.addNewTile(UtilService.deepClone(this.gridBg)));
+    this.flatGrid = this.gridService.flatGrid(this.grid);
+    this.changeDetectorRef.detectChanges();
+  }
+
   /** start a new game */
   newGame(): void {
     this.gridBg = this.gridService.newGrid(DEFAULT_GRID_SIZE);
-    this.grid = this.gridService.addNewTile(this.gridService.addNewTile(UtilService.deepClone(this.gridBg)));
-    this.flatGrid = this.gridService.flatGrid(this.grid);
+    
+    if (this.gameStarted) {
+      // If game was already started, add tiles
+      this.grid = this.gridService.addNewTile(this.gridService.addNewTile(UtilService.deepClone(this.gridBg)));
+      this.flatGrid = this.gridService.flatGrid(this.grid);
+    } else {
+      // Just initialize empty grid
+      this.grid = UtilService.deepClone(this.gridBg);
+      this.flatGrid = [];
+    }
+    
     this.best = this.scoreService.getBestScore();
     this.gameOver = false;
     this.score = 0;
+    this.changeDetectorRef.detectChanges();
   }
 
   /** apply movement for tiles */
   move(direction: MoveDirection): void {
-    if (!this.gameOver) {
-      const result = this.gridService.moveTile(this.grid, direction);
-      if (result.changed) {
-        this.grid = result.grid;
-        this.flatGrid = this.gridService.overrideFlatGrid(this.flatGrid, result.movements);
-        this.scoreService.saveBestScore(result.score + this.score);
+    if (!this.gameStarted || this.gameOver) {
+      return;
+    }
+    
+    const result = this.gridService.moveTile(this.grid, direction);
+    if (result.changed) {
+      this.grid = result.grid;
+      this.flatGrid = this.gridService.overrideFlatGrid(this.flatGrid, result.movements);
+      this.scoreService.saveBestScore(result.score + this.score);
+      this.changeDetectorRef.detectChanges();
+      setTimeout(() => {
+        this.flatGrid = this.gridService.flatGrid(this.grid);
+        this.score += result.score;
+        this.checkGameOver();
         this.changeDetectorRef.detectChanges();
-        setTimeout(() => {
-          this.flatGrid = this.gridService.flatGrid(this.grid);
-          this.score += result.score;
-          this.checkGameOver();
-          this.changeDetectorRef.detectChanges();
-        }, 250);
-      }
+      }, 250);
     }
   }
 
   /** keyboard action to apply a movement */
   action(event: KeyboardEvent): void {
+    if (!this.gameStarted || this.gameOver) {
+      return;
+    }
+    
     switch (event.code) {
       case 'ArrowUp':
       case 'KeyW':
@@ -152,23 +190,4 @@ export class GridComponent implements OnInit, OnDestroy {
     this.gameOver = this.gridService.freeTiles(this.grid).length === 0 && !this.gridService.hasMergesAvailable(this.grid);
   }
 
-  /** get touch position for touch event or null */
-  // getTouchPosition(event: TouchEvent): Coords2D | null {
-  //   return event.touches.length > 0 ? { x: event.touches[0].clientX, y: event.touches[0].clientY } : null;
-  // }
-
-  /** detect touch direction on touch end event */
-  // touchend(touchStart: Coords2D | null, touchEnd: Coords2D | null): null {
-  //   if (touchStart === null || touchEnd === null) return null;
-
-  //   const diff: Coords2D = { x: touchStart.x - touchEnd.x, y: touchStart.y - touchEnd.y };
-
-  //   if (Math.abs(diff.x) > Math.abs(diff.y)) {
-  //     this.move(diff.x > 0 ? 'left' : 'right');
-  //   } else {
-  //     this.move(diff.y > 0 ? 'up' : 'down');
-  //   }
-
-  //   return null;
-  // }
 }
