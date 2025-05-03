@@ -26,9 +26,9 @@ $font-sizes: (
   16: 2rem,
   32: 2rem,
   64: 2rem,
-  128: 2rem,
+  128: 1.5rem,
   256: 1.5rem,
-  512: 2rem,
+  512: 1.5rem,
   1024: 1.5rem,
   2048: 1.5rem,
   4096: 1.5rem,
@@ -65,8 +65,8 @@ $text-colors: (
   padding: 1rem;
 }
 ::ng-deep body {
-    background-image: none !important;
-    background-color: #f8f8f8; // Use a neutral color or any color you prefer
+    background-image: url(/assets/basic.jpg)
+    //background-color: #f8f8f8; // Use a neutral color or any color you prefer
   }
 
 
@@ -164,7 +164,7 @@ $text-colors: (
 
 .grid-bg {
   padding: $gap;
-  background-color: transparent;
+  background-color: rgb(236, 182, 239);
   border-radius: $border-radius;
 }
 
@@ -297,7 +297,7 @@ $text-colors: (
   width: $tile-size;
   height: $tile-size;
   border-radius: $border-radius;
-  background-color: transparent;
+  background-color: white;
   border: 1px solid white;
   display: flex;
   align-items: center;
@@ -342,7 +342,7 @@ $text-colors: (
   
 .mock-tile {
   position: static;
-  background-color: #cdc1b4;
+  background-color: #e9bdf3b8;
   border-color: white;
 }
 
