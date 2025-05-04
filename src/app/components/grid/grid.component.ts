@@ -90,7 +90,11 @@ export class GridComponent implements OnInit, OnDestroy {
     event.preventDefault();
     this.router.navigateByUrl('/basic');
   }
-
+  /** About Developer handler */
+  goToAbout(event: Event): void {
+  event.preventDefault();
+  this.router.navigateByUrl('/about');
+}
   /** Start the game */
   startGame(): void {
     this.gameStarted = true;

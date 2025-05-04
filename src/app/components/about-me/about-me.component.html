@@ -1,0 +1,35 @@
+<div class="about-container">
+    <h2>Hello there!👋🏻 I am Chinmayi Alladi 👩🏻‍💻</h2>
+    <p class="bio">
+      I'm a passionate web developer who loves turning fun ideas into playful and interactive web apps like this.
+      This game was a weekend project born out of my love for Taylor Swift and solving quirky challenges that make people smile! 😄
+    </p>
+    <p>I hope you had fun playing this as much as I did creating it!</p>
+    <p>Built using: <strong>HTML</strong>, <strong>CSS</strong>, <strong>JavaScript</strong>, and a sprinkle of love.💖</p> 
+  
+    <h3>Wanna say hi or report a bug? I'd love to hear your thoughts! 💭</h3>
+    <form class="feedback-form" (submit)="onSubmit()" #feedbackForm="ngForm">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" ngModel required placeholder="Your name">
+      </div>
+      
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" ngModel required placeholder="your.email@example.com">
+      </div>
+      
+      <div class="form-group">
+        <label for="message">Your Message</label>
+        <textarea id="message" name="message" rows="4" ngModel required placeholder="Tell me what you think about the game..."></textarea>
+      </div>
+      
+      <div class="button-container">
+        <button type="submit" [disabled]="!feedbackForm.valid">Send Message</button>
+        <small><a routerLink="/basic" class="back-link">Go back to playing game</a></small>
+      </div>
+    </form>
+  </div>
+  
+  <!-- Optional background overlay -->
+  <div class="page-background"></div>

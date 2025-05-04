@@ -75,7 +75,11 @@ export class BasicGridComponent implements OnInit, OnDestroy {
     event.preventDefault();
     this.router.navigateByUrl('/');
   }
-
+    /** About Developer handler */
+    goToAbout(event: Event): void {
+      event.preventDefault();
+      this.router.navigateByUrl('basic/about-me');
+    }
   /** generate event listeners */
   ngOnInit(): void {
     const action = (event: KeyboardEvent) => this.action(event);

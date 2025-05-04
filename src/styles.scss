@@ -7,8 +7,20 @@ body {
     font-style: normal;
     margin: 0;
     height: 100vh;
+    // Default: Hide scrollbar for all components
+    html, body {
+    height: 100%;
     overflow: hidden;
-    overscroll-behavior: none;
+  }
+  body.about-me-bg {
+    background-image: url('assets/basic.jpg') !important;
+  }
+  
+  // Only enable scrolling for pages with the 'enable-scroll' class
+  .enable-scroll {
+    height: auto;
+    overflow-y: auto !important;
+  }
 
     background-image: url('assets/bg.png'); /* use your actual file name */
     background-size: cover;
