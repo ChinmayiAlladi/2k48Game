@@ -66,7 +66,6 @@ $text-colors: (
 }
 ::ng-deep body {
     background-image: url(/assets/basic.jpg)
-    //background-color: #f8f8f8; // Use a neutral color or any color you prefer
   }
 
 
@@ -265,6 +264,9 @@ $text-colors: (
   }
   
   .version-switch {
+    cursor: pointer;
+  }
+  .about {
     cursor: pointer;
   }
   

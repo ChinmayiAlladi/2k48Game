@@ -218,6 +218,9 @@ $font-sizes: (
     .version-switch {
         cursor: pointer;
     }
+    .about {
+        cursor: pointer;
+    }
     
     .version-link {
         color: #0066cc;
@@ -243,7 +246,13 @@ $font-sizes: (
         }
     }
 }
-
+.game-hint {
+    font-style: italic;
+    font-size: 0.7rem;
+    color: #100e10; /* light purple or any Swift-themed color */
+    text-align: center;
+    margin-top: 0.5rem;
+  }
 .tile {
     width: $tile-size;
     height: $tile-size;

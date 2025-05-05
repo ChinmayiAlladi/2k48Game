@@ -6,6 +6,7 @@ import { GridService } from '../../services/grid/grid.service';
 import { ScoreService } from '../../services/score/score.service';
 import { UtilService } from '../../services/util/util.service';
 import { Coords2D, Grid, MoveDirection, Tile } from '../../types';
+import { SoundService } from '../../services/sound/sound.service';
 
 /** contains the grid for a game and controls */
 @Component({
@@ -21,7 +22,9 @@ export class GridComponent implements OnInit, OnDestroy {
   trackById(index: number, tile: any): any {
     return tile.id;
   }
-  
+
+  private playedSounds = new Set<number>();
+
   /** current game score */
   score: number = 0;
 
@@ -52,6 +55,7 @@ export class GridComponent implements OnInit, OnDestroy {
     private changeDetectorRef: ChangeDetectorRef,
     private scoreService: ScoreService,
     private router: Router,
+    private soundService: SoundService,
     @Inject(DOCUMENT) private document: Document,
     @Inject(PLATFORM_ID) platformId: string,
   ) {
@@ -97,6 +101,7 @@ export class GridComponent implements OnInit, OnDestroy {
 }
   /** Start the game */
   startGame(): void {
+    this.soundService.playSound('intro.mp3');
     this.gameStarted = true;
     // Add initial tiles and start the game
     this.grid = this.gridService.addNewTile(this.gridService.addNewTile(UtilService.deepClone(this.gridBg)));
