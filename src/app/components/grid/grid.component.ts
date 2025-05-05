@@ -23,8 +23,6 @@ export class GridComponent implements OnInit, OnDestroy {
     return tile.id;
   }
 
-  private playedSounds = new Set<number>();
-
   /** current game score */
   score: number = 0;
 
@@ -96,12 +94,14 @@ export class GridComponent implements OnInit, OnDestroy {
   }
   /** About Developer handler */
   goToAbout(event: Event): void {
-  event.preventDefault();
-  this.router.navigateByUrl('/about');
-}
+    event.preventDefault();
+    this.router.navigateByUrl('/about');
+  }
   /** Start the game */
   startGame(): void {
     this.soundService.playSound('intro.mp3');
+    // Make sure we reset tile tracking when starting a new game
+    this.soundService.resetAppearedTiles();
     this.gameStarted = true;
     // Add initial tiles and start the game
     this.grid = this.gridService.addNewTile(this.gridService.addNewTile(UtilService.deepClone(this.gridBg)));
@@ -111,6 +111,10 @@ export class GridComponent implements OnInit, OnDestroy {
 
   /** start a new game */
   newGame(): void {
+    this.soundService.playSound('intro.mp3');
+    // Always reset the tracked tiles when starting a new game
+    this.soundService.resetAppearedTiles();
+    
     this.gridBg = this.gridService.newGrid(DEFAULT_GRID_SIZE);
     
     if (this.gameStarted) {
@@ -140,13 +144,36 @@ export class GridComponent implements OnInit, OnDestroy {
       this.grid = result.grid;
       this.flatGrid = this.gridService.overrideFlatGrid(this.flatGrid, result.movements);
       this.scoreService.saveBestScore(result.score + this.score, true); // Taylor's version
+      
+      // Check for new tile values that appeared from merges
+      // Important: Do this after updating the grid but before changing the view
+      this.checkForNewTileValues();
+      
       this.changeDetectorRef.detectChanges();
+      
       setTimeout(() => {
         this.flatGrid = this.gridService.flatGrid(this.grid);
         this.score += result.score;
         this.checkGameOver();
         this.changeDetectorRef.detectChanges();
       }, 250);
+    }
+  }
+
+  /**
+   * Check the grid for new tile values that have appeared
+   * and play sounds for first appearances
+   */
+  private checkForNewTileValues(): void {
+    // Create a flat array of all tiles for easier processing
+    const allTiles = this.grid.flat().filter(tile => tile !== null);
+    
+    // Check each tile value to see if it's the first appearance
+    for (const tile of allTiles) {
+      if (tile && tile.value >= 4) { // We only have sounds for 4 and up
+        // This will only play the sound if it's the first appearance
+        this.soundService.playFirstAppearanceSound(tile.value);
+      }
     }
   }
 
