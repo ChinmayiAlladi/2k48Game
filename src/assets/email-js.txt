@@ -1,7 +1,0 @@
-service_21n6w0h service ID
-
-WyDp_2_IgVVq2GZDm Public Key
-
-template_p5kbegr Template ID
-
-Contact us Template Name
